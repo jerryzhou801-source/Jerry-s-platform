@@ -6,6 +6,7 @@
   <title>关于我 · 研究笔记</title>
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%93%88%3C/text%3E%3C/svg%3E" />
   <link rel="stylesheet" href="assets/style.css" />
+  <script src="assets/md.js"></script>
 </head>
 <body>
   <header class="masthead">
@@ -15,42 +16,48 @@
     </div>
   </header>
   <nav class="sitenav">
-        <a href="index.html">首页</a>
-        <a href="reports.html">报告</a>
-        <a href="prices.html">价格</a>
-        <a href="trades.html">交易日志</a>
-        <a href="about.html" class="active">关于我</a>
+        <a href="index.html" data-i18n="nav_home">首页</a>
+        <a href="reports.html" data-i18n="nav_reports">报告</a>
+        <a href="prices.html" data-i18n="nav_prices">价格</a>
+        <a href="trades.html" data-i18n="nav_trades">交易日志</a>
+        <a href="about.html" class="active" data-i18n="nav_about">关于我</a>
+        <button id="langToggle" class="lang-toggle" aria-label="Switch language">EN</button>
   </nav>
 
   <main class="wrap">
     <div class="section-head">
-      <h1>关于我</h1>
-      <p>以下均为占位内容,请把它改成您自己的真实介绍。</p>
+      <h1 data-i18n="about_title">关于我</h1>
       <div class="rule"></div>
     </div>
-
-    <div class="about-card">
-      <p>你好,我是一名<strong>油籽 / 植物油 / 生柴</strong>市场的研究者与交易者。这个网站是我个人的研究笔记,用来记录每日观察、价格跟踪与交易复盘。</p>
-
-      <h2>我关注的市场</h2>
-      <ul>
-        <li>菜籽 / 菜油(Matif、ICE)</li>
-        <li>棕榈油、豆油、葵花油</li>
-        <li>生物柴油与相关政策(RED III 等)</li>
-      </ul>
-
-      <h2>联系方式</h2>
-      <ul>
-        <li>邮箱:your-email@example.com(占位,请替换)</li>
-        <li>微信 / 其他:待补充</li>
-      </ul>
-
-      <p style="color:var(--muted);font-size:14px;margin-top:24px">
-        本站内容仅为个人研究记录,不构成任何投资建议。
-      </p>
-    </div>
+    <div class="about-card" id="about"><p style="color:var(--muted)">…</p></div>
   </main>
 
-  <footer class="foot">© 研究笔记</footer>
+  <footer class="foot">© <span id="year"></span> <span data-i18n="site_name">研究笔记</span> · <span data-i18n="foot">内容仅供个人研究记录,不构成投资建议。</span></footer>
+
+  <script src="assets/i18n.js"></script>
+  <script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+    function loadAbout() {
+      var lang = window.i18n ? i18n.getLang() : 'zh';
+      var file = lang === 'en' ? 'about.en.md' : 'about.md';
+      fetch(file + '?t=' + Date.now())
+        .then(function (r) { if (!r.ok) throw new Error('missing'); return r.text(); })
+        .then(function (text) {
+          document.getElementById('about').innerHTML = renderMarkdown(parseFrontmatter(text).body);
+        })
+        .catch(function () {
+          // 英文版还没写时,回退到中文
+          if (lang === 'en') {
+            fetch('about.md?t=' + Date.now()).then(function (r) { return r.text(); }).then(function (text) {
+              document.getElementById('about').innerHTML = renderMarkdown(parseFrontmatter(text).body);
+            });
+          } else {
+            document.getElementById('about').innerHTML = '<p style="color:var(--muted)">加载失败</p>';
+          }
+        });
+    }
+    loadAbout();
+    document.addEventListener('langchange', loadAbout);
+  </script>
 </body>
 </html>

@@ -10,64 +10,64 @@
 <body>
   <header class="masthead home">
     <div class="mh-inner">
-      <div class="mh-name">研究笔记</div>
-      <div class="mh-tag">油籽 · 植物油 · 生物柴油</div>
+      <div class="mh-name" data-i18n="site_name">研究笔记</div>
+      <div class="mh-tag" data-i18n="tagline">油籽 · 植物油 · 生物柴油</div>
     </div>
   </header>
   <nav class="sitenav">
-    <a href="index.html" class="active">首页</a>
-    <a href="reports.html">报告</a>
-    <a href="prices.html">价格</a>
-    <a href="trades.html">交易日志</a>
-    <a href="about.html">关于我</a>
+    <a href="index.html" class="active" data-i18n="nav_home">首页</a>
+    <a href="reports.html" data-i18n="nav_reports">报告</a>
+    <a href="prices.html" data-i18n="nav_prices">价格</a>
+    <a href="trades.html" data-i18n="nav_trades">交易日志</a>
+    <a href="about.html" data-i18n="nav_about">关于我</a>
+    <button id="langToggle" class="lang-toggle" aria-label="Switch language">EN</button>
   </nav>
 
   <main class="wrap">
     <div class="home-intro">
-      <div class="kicker">Research Notes</div>
-      <h1>市场观察,每日一记</h1>
-      <p>这里记录我对油籽、植物油与生物柴油市场的每日观察、价格跟踪与交易复盘。<br />(占位文案,之后可改成您自己的介绍。)</p>
+      <div class="kicker" data-i18n="home_kicker">研究记录</div>
+      <h1 data-i18n="home_h1">市场观察,每日一记</h1>
+      <p data-i18n="home_p">这里记录我对油籽、植物油与生物柴油市场的每日观察、价格跟踪与交易复盘。(占位文案,之后可改成您自己的介绍。)</p>
     </div>
 
     <div class="features">
       <a class="feature" href="reports.html">
         <div class="feature-media">📝</div>
         <div class="feature-body">
-          <div class="kicker">每日 · 每周</div>
-          <h3>报告</h3>
-          <span class="btn">阅读报告</span>
+          <div class="kicker" data-i18n="feat_reports_k">每日 · 每周</div>
+          <h3 data-i18n="feat_reports_h">报告</h3>
+          <span class="btn" data-i18n="feat_reports_b">阅读报告</span>
         </div>
       </a>
       <a class="feature" href="prices.html">
         <div class="feature-media">📊</div>
         <div class="feature-body">
-          <div class="kicker">手动维护</div>
-          <h3>价格走势</h3>
-          <span class="btn">查看价格</span>
+          <div class="kicker" data-i18n="feat_prices_k">手动维护</div>
+          <h3 data-i18n="feat_prices_h">价格走势</h3>
+          <span class="btn" data-i18n="feat_prices_b">查看价格</span>
         </div>
       </a>
       <a class="feature" href="trades.html">
         <div class="feature-media">📒</div>
         <div class="feature-body">
-          <div class="kicker">记录 · 复盘</div>
-          <h3>交易日志</h3>
-          <span class="btn">查看日志</span>
+          <div class="kicker" data-i18n="feat_trades_k">记录 · 复盘</div>
+          <h3 data-i18n="feat_trades_h">交易日志</h3>
+          <span class="btn" data-i18n="feat_trades_b">查看日志</span>
         </div>
       </a>
       <a class="feature" href="about.html">
         <div class="feature-media">🖋</div>
         <div class="feature-body">
-          <div class="kicker">简介 · 联系</div>
-          <h3>关于我</h3>
-          <span class="btn">了解更多</span>
+          <div class="kicker" data-i18n="feat_about_k">简介 · 联系</div>
+          <h3 data-i18n="feat_about_h">关于我</h3>
+          <span class="btn" data-i18n="feat_about_b">了解更多</span>
         </div>
       </a>
     </div>
   </main>
 
-  <footer class="foot">
-    © <span id="year"></span> 研究笔记 · 内容仅供个人研究记录,不构成投资建议。
-  </footer>
+  <footer class="foot">© <span id="year"></span> <span data-i18n="site_name">研究笔记</span> · <span data-i18n="foot">内容仅供个人研究记录,不构成投资建议。</span></footer>
+  <script src="assets/i18n.js"></script>
   <script>document.getElementById('year').textContent = new Date().getFullYear();</script>
 </body>
 </html>

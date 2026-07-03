@@ -28,7 +28,8 @@ function buildIndex(dir) {
       title: meta.title || file.replace(/\.md$/, ''),
       date: meta.date || dateFromName,
       file,
-      summary: meta.summary || ''
+      summary: meta.summary || '',
+      lang: (meta.lang || 'zh').toLowerCase().indexOf('en') === 0 ? 'en' : 'zh'
     };
   });
   items.sort((a, b) => (a.date < b.date ? 1 : -1));   // 日期从新到旧

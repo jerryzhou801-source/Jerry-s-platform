@@ -28,10 +28,11 @@ collections:
     create: true
     extension: md
     format: frontmatter
-    slug: '{{fields.date}}-report'
+    slug: '{{fields.date}}-{{fields.lang}}-report'
     summary: '{{fields.date}} · {{title}}'
     sortable_fields: [date, title]
     fields:
+      - { label: 语言, name: lang, widget: select, options: [{ label: 中文, value: zh }, { label: English, value: en }], default: zh, hint: '这篇是中文还是英文?会显示在对应语言的网站里' }
       - { label: 标题, name: title, widget: string, hint: '例如:每日简报 · 2026-07-03' }
       - { label: 日期, name: date, widget: datetime, date_format: 'YYYY-MM-DD', time_format: false, format: 'YYYY-MM-DD' }
       - { label: 摘要(可选,显示在列表里), name: summary, widget: text, required: false }
@@ -45,10 +46,11 @@ collections:
     create: true
     extension: md
     format: frontmatter
-    slug: '{{fields.date}}-trade'
+    slug: '{{fields.date}}-{{fields.lang}}-trade'
     summary: '{{fields.date}} · {{title}}'
     sortable_fields: [date, title]
     fields:
+      - { label: 语言, name: lang, widget: select, options: [{ label: 中文, value: zh }, { label: English, value: en }], default: zh, hint: '这篇是中文还是英文?会显示在对应语言的网站里' }
       - { label: 标题, name: title, widget: string, hint: '例如:交易日志 · 2026-07-02 菜油/棕榈价差' }
       - { label: 日期, name: date, widget: datetime, date_format: 'YYYY-MM-DD', time_format: false, format: 'YYYY-MM-DD' }
       - { label: 摘要(可选), name: summary, widget: text, required: false }
@@ -79,3 +81,20 @@ collections:
                 fields:
                   - { label: 日期, name: 日期, widget: datetime, date_format: 'YYYY-MM-DD', time_format: false, format: 'YYYY-MM-DD' }
                   - { label: 数值, name: 数值, widget: number, value_type: float }
+
+  # -------- 关于我(编辑 about.md)--------
+  - name: pages
+    label: 页面
+    files:
+      - name: about
+        label: 关于我(中文)
+        file: about.md
+        fields:
+          - { label: 标题, name: title, widget: string, required: false }
+          - { label: 正文, name: body, widget: markdown, hint: '正文里也能插入图片(工具条的图片按钮)' }
+      - name: about_en
+        label: About (English)
+        file: about.en.md
+        fields:
+          - { label: Title, name: title, widget: string, required: false }
+          - { label: Body, name: body, widget: markdown, hint: 'Shown when the site is switched to English.' }

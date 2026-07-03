@@ -6,27 +6,29 @@
   <title>价格 · 研究笔记</title>
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%93%88%3C/text%3E%3C/svg%3E" />
   <link rel="stylesheet" href="assets/style.css" />
+  <script src="assets/i18n.js"></script>
   <script src="assets/chart.js"></script>
 </head>
 <body>
   <header class="masthead">
     <div class="mh-inner">
-      <div class="mh-name">研究笔记</div>
-      <div class="mh-tag">油籽 · 植物油 · 生物柴油</div>
+      <div class="mh-name" data-i18n="site_name">研究笔记</div>
+      <div class="mh-tag" data-i18n="tagline">油籽 · 植物油 · 生物柴油</div>
     </div>
   </header>
   <nav class="sitenav">
-        <a href="index.html">首页</a>
-        <a href="reports.html">报告</a>
-        <a href="prices.html" class="active">价格</a>
-        <a href="trades.html">交易日志</a>
-        <a href="about.html">关于我</a>
+        <a href="index.html" data-i18n="nav_home">首页</a>
+        <a href="reports.html" data-i18n="nav_reports">报告</a>
+        <a href="prices.html" class="active" data-i18n="nav_prices">价格</a>
+        <a href="trades.html" data-i18n="nav_trades">交易日志</a>
+        <a href="about.html" data-i18n="nav_about">关于我</a>
+        <button id="langToggle" class="lang-toggle" aria-label="Switch language">EN</button>
   </nav>
 
   <main class="wrap">
     <div class="section-head">
-      <h1>价格走势</h1>
-      <p>各品种价格折线图 · 手动维护。涨为<span style="color:var(--up);font-weight:700">红</span>、跌为<span style="color:var(--down);font-weight:700">绿</span>。</p>
+      <h1 data-i18n="prices_title">价格走势</h1>
+      <p data-i18n-html="prices_sub_html">各品种价格折线图 · 手动维护。涨为<span style="color:var(--up);font-weight:700">红</span>、跌为<span style="color:var(--down);font-weight:700">绿</span>。</p>
       <div class="rule"></div>
     </div>
     <div id="updated" class="price-updated"></div>
@@ -34,72 +36,79 @@
     <div id="err" class="empty hidden"></div>
   </main>
 
-  <footer class="foot">数据由本人手动维护,仅供个人研究记录,不构成投资建议。</footer>
+  <footer class="foot">© <span id="year"></span> <span data-i18n="site_name">研究笔记</span> · <span data-i18n="foot">内容仅供个人研究记录,不构成投资建议。</span></footer>
 
   <script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+    function T(key, zh) { return window.i18n ? i18n.t(key) : zh; }
     function fmt(n) {
       var v = Number(n);
       return (Math.abs(v) >= 100 || Number.isInteger(v)) ? v.toLocaleString('en-US') : v.toFixed(2);
     }
     function pick(o, keys) { for (var i = 0; i < keys.length; i++) if (o[keys[i]] !== undefined) return o[keys[i]]; }
 
+    var priceData = null;
+    function render() {
+      if (!priceData) return;
+      var items = priceData['品种'] || priceData.items || [];
+      var grid = document.getElementById('grid');
+      grid.innerHTML = '';
+      var latestDate = '';
+
+      items.forEach(function (it) {
+        var hist = (it['历史'] || it.history || []).slice().sort(function (a, b) {
+          return String(a['日期']) < String(b['日期']) ? -1 : 1;
+        });
+        var name = pick(it, ['名称', 'name']) || '(未命名)';
+        var unit = pick(it, ['单位', 'unit']) || '';
+        var last = hist[hist.length - 1], prev = hist[hist.length - 2];
+        var lastV = last ? Number(last['数值']) : null;
+        var lastD = last ? String(last['日期']) : '';
+        if (lastD > latestDate) latestDate = lastD;
+
+        var chgHtml = '<span class="pc-chg flat">—</span>';
+        if (last && prev) {
+          var diff = lastV - Number(prev['数值']);
+          var pct = Number(prev['数值']) ? (diff / Number(prev['数值']) * 100) : 0;
+          var cls = diff > 0 ? 'up' : (diff < 0 ? 'down' : 'flat');
+          var sign = diff > 0 ? '+' : '';
+          chgHtml = '<span class="pc-chg ' + cls + '">' + sign + fmt(diff) + ' (' + sign + pct.toFixed(2) + '%)</span>';
+        }
+
+        var card = document.createElement('div');
+        card.className = 'price-card';
+        card.innerHTML =
+          '<div class="pc-head">' +
+            '<div><span class="pc-name">' + name + '</span>' +
+            (unit ? '<span class="pc-unit">' + unit + '</span>' : '') + '</div>' +
+            '<div style="text-align:right">' +
+              '<div class="pc-val">' + (lastV !== null ? fmt(lastV) : '—') + '</div>' + chgHtml +
+            '</div>' +
+          '</div>' +
+          priceChartSVG(hist) +
+          '<div class="pc-date">' + T('price_recent', '最近更新:') + (lastD || '—') +
+            T('price_points_pre', ' · 共 ') + hist.length + T('price_points', ' 个数据点') + '</div>';
+        grid.appendChild(card);
+      });
+
+      document.getElementById('updated').textContent = items.length
+        ? (T('price_latest', '最新数据日期:') + latestDate +
+           T('price_species_pre', '(共 ') + items.length + T('price_species', ' 个品种') + T('price_species_suf', ')'))
+        : '';
+      var e = document.getElementById('err');
+      if (!items.length) { e.textContent = T('price_none', 'prices.json 里还没有任何品种。'); e.classList.remove('hidden'); }
+      else { e.classList.add('hidden'); }
+    }
+
     fetch('data/prices.json?t=' + Date.now())
       .then(function (r) { if (!r.ok) throw new Error('读取 prices.json 失败'); return r.json(); })
-      .then(function (data) {
-        var items = data['品种'] || data.items || [];
-        var grid = document.getElementById('grid');
-        var latestDate = '';
-
-        items.forEach(function (it) {
-          var hist = (it['历史'] || it.history || []).slice().sort(function (a, b) {
-            return String(a['日期']) < String(b['日期']) ? -1 : 1;   // 按日期从旧到新
-          });
-          var name = pick(it, ['名称', 'name']) || '(未命名)';
-          var unit = pick(it, ['单位', 'unit']) || '';
-
-          var last = hist[hist.length - 1], prev = hist[hist.length - 2];
-          var lastV = last ? Number(last['数值']) : null;
-          var lastD = last ? String(last['日期']) : '';
-          if (lastD > latestDate) latestDate = lastD;
-
-          var chgHtml = '<span class="pc-chg flat">—</span>';
-          if (last && prev) {
-            var diff = lastV - Number(prev['数值']);
-            var pct = Number(prev['数值']) ? (diff / Number(prev['数值']) * 100) : 0;
-            var cls = diff > 0 ? 'up' : (diff < 0 ? 'down' : 'flat');
-            var sign = diff > 0 ? '+' : '';
-            chgHtml = '<span class="pc-chg ' + cls + '">' + sign + fmt(diff) +
-              ' (' + sign + pct.toFixed(2) + '%)</span>';
-          }
-
-          var card = document.createElement('div');
-          card.className = 'price-card';
-          card.innerHTML =
-            '<div class="pc-head">' +
-              '<div><span class="pc-name">' + name + '</span> ' +
-              '<span class="pc-unit">' + unit + '</span></div>' +
-              '<div style="text-align:right">' +
-                '<div class="pc-val">' + (lastV !== null ? fmt(lastV) : '—') + '</div>' +
-                chgHtml +
-              '</div>' +
-            '</div>' +
-            priceChartSVG(hist) +
-            '<div class="pc-date">最近更新:' + (lastD || '—') + ' · 共 ' + hist.length + ' 个数据点</div>';
-          grid.appendChild(card);
-        });
-
-        document.getElementById('updated').textContent =
-          items.length ? ('最新数据日期:' + latestDate + '(共 ' + items.length + ' 个品种)') : '';
-        if (!items.length) {
-          var e = document.getElementById('err');
-          e.textContent = 'prices.json 里还没有任何品种。'; e.classList.remove('hidden');
-        }
-      })
+      .then(function (data) { priceData = data; render(); })
       .catch(function (err) {
         var e = document.getElementById('err');
-        e.textContent = '加载价格数据出错:' + err.message;
-        e.classList.remove('hidden');
+        e.textContent = '加载价格数据出错:' + err.message; e.classList.remove('hidden');
       });
+
+    document.addEventListener('langchange', render);
   </script>
 </body>
 </html>

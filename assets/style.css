@@ -89,6 +89,13 @@ img { max-width: 100%; }
 .sitenav a:hover::after { transform: scaleX(1); }
 .sitenav a.active { color: var(--olive-ink); }
 .sitenav a.active::after { transform: scaleX(1); }
+.lang-toggle {
+  position: absolute; right: 18px; top: 50%; transform: translateY(-50%);
+  font-size: 11.5px; letter-spacing: 1px; font-weight: 600; color: var(--olive-ink);
+  background: transparent; border: 1px solid var(--line); border-radius: 2px;
+  padding: 5px 11px; cursor: pointer; transition: background .18s, color .18s, border-color .18s;
+}
+.lang-toggle:hover { background: var(--olive); color: #fff; border-color: var(--olive); }
 
 /* ---------- 通用容器 & 段首标题 ---------- */
 .wrap { max-width: var(--maxw); margin: 0 auto; padding: 56px 24px 80px; }
