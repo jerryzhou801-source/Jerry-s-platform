@@ -51,4 +51,40 @@
   }
 
   global.priceChartSVG = priceChartSVG;
+
+  // 多序列叠加折线图(用于远期曲线等多合约面板)
+  var PALETTE = ['#5c6a3d', '#b0472f', '#c8a67f', '#6d7a80', '#82705c', '#8f9a6a'];
+  global.CHART_PALETTE = PALETTE;
+
+  function multiChartSVG(seriesArr) {
+    var W = 600, H = 140, padX = 8, padT = 12, padB = 12;
+    var parsed = (seriesArr || []).map(function (s) {
+      return (s['历史'] || s.history || []).filter(function (p) {
+        return p && p['数值'] != null && !isNaN(Number(p['数值']));
+      }).map(function (p) { return { t: Date.parse(p['日期']), v: Number(p['数值']) }; });
+    });
+    var all = parsed.reduce(function (a, b) { return a.concat(b); }, []);
+    if (!all.length) {
+      return '<svg viewBox="0 0 ' + W + ' ' + H + '" preserveAspectRatio="none"><text x="' + (W / 2) +
+        '" y="' + (H / 2) + '" text-anchor="middle" fill="#a99f8d" font-size="13">暂无数据</text></svg>';
+    }
+    var vs = all.map(function (p) { return p.v; }), ts = all.map(function (p) { return p.t; });
+    var minV = Math.min.apply(null, vs), maxV = Math.max.apply(null, vs);
+    if (minV === maxV) { minV -= 1; maxV += 1; }
+    var minT = Math.min.apply(null, ts), maxT = Math.max.apply(null, ts);
+    var spanT = (maxT - minT) || 1, rng = maxV - minV;
+    var x = function (t) { return padX + (t - minT) / spanT * (W - 2 * padX); };
+    var y = function (v) { return padT + (1 - (v - minV) / rng) * (H - padT - padB); };
+
+    var paths = '';
+    parsed.forEach(function (pts, i) {
+      if (!pts.length) return;
+      var d = '';
+      pts.forEach(function (p, j) { d += (j === 0 ? 'M' : 'L') + x(p.t).toFixed(1) + ' ' + y(p.v).toFixed(1) + ' '; });
+      paths += '<path d="' + d + '" fill="none" stroke="' + PALETTE[i % PALETTE.length] +
+        '" stroke-width="1.8" vector-effect="non-scaling-stroke" stroke-linejoin="round" stroke-linecap="round"/>';
+    });
+    return '<svg viewBox="0 0 ' + W + ' ' + H + '" preserveAspectRatio="none" role="img">' + paths + '</svg>';
+  }
+  global.multiChartSVG = multiChartSVG;
 })(window);

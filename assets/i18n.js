@@ -40,9 +40,8 @@
     price_species: { zh: ' 个品种', en: ' instruments' },
     price_species_pre: { zh: '(共 ', en: '(' },
     price_species_suf: { zh: ')', en: ')' },
-    price_recent:  { zh: '最近更新:', en: 'Updated: ' },
-    price_points_pre: { zh: ' · 共 ', en: ' · ' },
-    price_points:  { zh: ' 个数据点', en: ' points' },
+    price_updated_on: { zh: '更新于 ', en: 'Updated ' },
+    price_flat:    { zh: '持平', en: 'flat' },
     price_none:    { zh: 'prices.json 里还没有任何品种。', en: 'No instruments in prices.json yet.' },
 
     list_empty:    { zh: '还没有内容。', en: 'Nothing here yet.' },

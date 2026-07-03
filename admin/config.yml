@@ -56,31 +56,8 @@ collections:
       - { label: 摘要(可选), name: summary, widget: text, required: false }
       - { label: 正文, name: body, widget: markdown }
 
-  # -------- 价格(编辑 data/prices.json)--------
-  - name: prices
-    label: 价格
-    files:
-      - name: prices_data
-        label: 价格数据
-        file: data/prices.json
-        fields:
-          - { label: 更新说明, name: 更新说明, widget: string, required: false }
-          - label: 品种
-            name: 品种
-            widget: list
-            label_singular: 品种
-            summary: '{{fields.名称}}'
-            fields:
-              - { label: 名称, name: 名称, widget: string }
-              - { label: 单位, name: 单位, widget: string }
-              - label: 历史(每天加一行)
-                name: 历史
-                widget: list
-                label_singular: 一天
-                summary: '{{fields.日期}} · {{fields.数值}}'
-                fields:
-                  - { label: 日期, name: 日期, widget: datetime, date_format: 'YYYY-MM-DD', time_format: false, format: 'YYYY-MM-DD' }
-                  - { label: 数值, name: 数值, widget: number, value_type: float }
+  # 注:价格数据(data/prices.json)由本地导出工具生成(tools/export_prices.py),
+  #     不在后台编辑,以免被下次导出覆盖。
 
   # -------- 关于我(编辑 about.md)--------
   - name: pages
