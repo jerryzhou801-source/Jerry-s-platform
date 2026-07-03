@@ -16,3 +16,5 @@ Hello — I'm Jerry - a researcher and trader focused on the **oilseeds / vegeta
 * Wechat: 15000690448
 
 Content on this site is a personal research record and does not constitute investment advice.
+
+![](/assets/uploads/89f72a2a846cbfbba13d85c604535a1d.jpg)
