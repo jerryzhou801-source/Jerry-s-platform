@@ -3,6 +3,12 @@
   var STR = {
     site_name:   { zh: '研究笔记', en: 'Research Notes' },
     tagline:     { zh: '油籽 · 植物油 · 生物柴油', en: 'Oilseeds · Vegoils · Biodiesel' },
+
+    title_home:    { zh: '研究笔记 · 首页', en: 'Research Notes · Home' },
+    title_reports: { zh: '报告 · 研究笔记', en: 'Reports · Research Notes' },
+    title_prices:  { zh: '价格 · 研究笔记', en: 'Prices · Research Notes' },
+    title_trades:  { zh: '交易日志 · 研究笔记', en: 'Trade Log · Research Notes' },
+    title_about:   { zh: '关于我 · 研究笔记', en: 'About · Research Notes' },
     nav_home:    { zh: '首页', en: 'Home' },
     nav_reports: { zh: '报告', en: 'Reports' },
     nav_prices:  { zh: '价格', en: 'Prices' },
@@ -11,8 +17,8 @@
 
     home_kicker: { zh: '研究记录', en: 'Research Notes' },
     home_h1:     { zh: '市场观察,每日一记', en: 'Daily Market Notes' },
-    home_p:      { zh: '这里记录我对油籽、植物油与生物柴油市场的每日观察、价格跟踪与交易复盘。(占位文案,之后可改成您自己的介绍。)',
-                   en: 'Daily observations, price tracking and trade reviews across the oilseeds, vegetable oils and biodiesel markets. (Placeholder — edit this to your own intro.)' },
+    home_p:      { zh: '这里记录我对油籽、植物油与生物柴油市场的每日观察、价格跟踪与交易复盘。',
+                   en: 'Daily observations, price tracking and trade reviews across the oilseeds, vegetable oils and biodiesel markets.' },
 
     feat_reports_k: { zh: '每日 · 每周', en: 'Daily · Weekly' },
     feat_reports_h: { zh: '报告', en: 'Reports' },
@@ -53,7 +59,7 @@
     foot:          { zh: '内容仅供个人研究记录,不构成投资建议。', en: 'Personal research notes only. Not investment advice.' }
   };
 
-  function getLang() { try { return localStorage.getItem('lang') || 'zh'; } catch (e) { return 'zh'; } }
+  function getLang() { try { return localStorage.getItem('lang') || 'en'; } catch (e) { return 'en'; } }
   function setLang(l) { try { localStorage.setItem('lang', l); } catch (e) {} apply();
     document.dispatchEvent(new CustomEvent('langchange', { detail: l })); }
   function t(key) { var e = STR[key]; return e ? (e[getLang()] || e.zh) : key; }
@@ -69,6 +75,8 @@
     });
     var btn = document.getElementById('langToggle');
     if (btn) btn.textContent = lang === 'en' ? '中文' : 'EN';
+    var tk = document.body && document.body.getAttribute('data-i18n-title');
+    if (tk && STR[tk]) document.title = STR[tk][lang] || STR[tk].zh;
   }
 
   function init() {
