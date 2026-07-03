@@ -10,10 +10,20 @@ function parseFrontmatter(text) {
   const m = /^---\s*\n([\s\S]*?)\n---/.exec(text);
   const meta = {};
   if (m) {
-    for (const line of m[1].split('\n')) {
-      const mm = /^([A-Za-z0-9_]+)\s*:\s*(.*)$/.exec(line);
-      if (mm) meta[mm[1].trim()] = mm[2].trim().replace(/^["']|["']$/g, '');
+    let curKey = null;
+    for (const raw of m[1].split('\n')) {
+      const mm = /^([A-Za-z0-9_]+)\s*:\s*(.*)$/.exec(raw);
+      if (mm) {
+        curKey = mm[1].trim();
+        meta[curKey] = mm[2].trim();
+      } else if (curKey && /^\s+\S/.test(raw)) {
+        // YAML 折行:缩进的续行并入当前键(换行折叠为空格),用于长摘要
+        meta[curKey] = (meta[curKey] + ' ' + raw.trim()).trim();
+      } else {
+        curKey = null;
+      }
     }
+    for (const k in meta) meta[k] = meta[k].replace(/^["']|["']$/g, '');
   }
   return meta;
 }
