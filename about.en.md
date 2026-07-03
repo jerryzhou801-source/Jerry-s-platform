@@ -1,18 +1,18 @@
 ---
 title: About
 ---
-
-Hello — I'm a researcher and trader focused on the **oilseeds / vegetable oils / biodiesel** markets. This site is my personal research notebook: daily observations, price tracking and trade reviews.
+Hello — I'm Jerry - a researcher and trader focused on the **oilseeds / vegetable oils / biofuels/ biotickets** markets. This site is my personal research notebook: daily observations, price tracking and trade reviews.
 
 ## Markets I follow
 
-- Rapeseed / rapeseed oil (Matif, ICE)
-- Palm oil, soybean oil, sunflower oil
-- Biodiesel and related policy (RED III, etc.)
+* Rapeseed Complex
+* Palm oil, soybean oil, sunflower oil
+* Biodiesel and related policy (RED III, etc.)
 
 ## Contact
 
-- Email: your-email@example.com (placeholder — please replace)
-- WeChat / other: to be added
+* Email: jerryzhou.801@gmail.com
+* Whatsapp/ number: +44 7464315074
+* Wechat: 15000690448
 
 Content on this site is a personal research record and does not constitute investment advice.
