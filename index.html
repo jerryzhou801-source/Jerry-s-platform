@@ -8,51 +8,62 @@
   <link rel="stylesheet" href="assets/style.css" />
 </head>
 <body>
-  <header class="topbar">
-    <div class="topbar-inner">
-      <a class="brand" href="index.html"><span class="logo">📈</span> 研究笔记</a>
-      <nav class="nav">
-        <a href="index.html" class="active">首页</a>
-        <a href="reports.html">报告</a>
-        <a href="prices.html">价格</a>
-        <a href="trades.html">交易日志</a>
-        <a href="about.html">关于我</a>
-      </nav>
+  <header class="masthead home">
+    <div class="mh-inner">
+      <div class="mh-name">研究笔记</div>
+      <div class="mh-tag">油籽 · 植物油 · 生物柴油</div>
     </div>
   </header>
+  <nav class="sitenav">
+    <a href="index.html" class="active">首页</a>
+    <a href="reports.html">报告</a>
+    <a href="prices.html">价格</a>
+    <a href="trades.html">交易日志</a>
+    <a href="about.html">关于我</a>
+  </nav>
 
-  <section class="hero">
-    <span class="eyebrow"><span class="dot"></span> 油籽 · 植物油 · 生柴</span>
-    <h1>市场观察,<span class="accent">每日一记</span></h1>
-    <p>油籽 / 植物油 / 生柴市场的每日观察、价格跟踪与交易复盘。<br />（这是占位文案,之后可在「关于我」或首页改成您自己的介绍。）</p>
-  </section>
+  <main class="wrap">
+    <div class="home-intro">
+      <div class="kicker">Research Notes</div>
+      <h1>市场观察,每日一记</h1>
+      <p>这里记录我对油籽、植物油与生物柴油市场的每日观察、价格跟踪与交易复盘。<br />(占位文案,之后可改成您自己的介绍。)</p>
+    </div>
 
-  <div class="cards">
-    <a class="card" href="reports.html">
-      <div class="ico">📝</div>
-      <h3>报告</h3>
-      <p>每日简报与周报,按日期倒序排列。</p>
-      <div class="go">查看报告 →</div>
-    </a>
-    <a class="card" href="prices.html">
-      <div class="ico">📊</div>
-      <h3>价格</h3>
-      <p>各品种价格折线走势,手动维护、持续更新。</p>
-      <div class="go">查看价格 →</div>
-    </a>
-    <a class="card" href="trades.html">
-      <div class="ico">📒</div>
-      <h3>交易日志</h3>
-      <p>自己的交易记录与复盘,长期累积。</p>
-      <div class="go">查看日志 →</div>
-    </a>
-    <a class="card" href="about.html">
-      <div class="ico">👤</div>
-      <h3>关于我</h3>
-      <p>自我介绍与联系方式。</p>
-      <div class="go">了解更多 →</div>
-    </a>
-  </div>
+    <div class="features">
+      <a class="feature" href="reports.html">
+        <div class="feature-media">📝</div>
+        <div class="feature-body">
+          <div class="kicker">每日 · 每周</div>
+          <h3>报告</h3>
+          <span class="btn">阅读报告</span>
+        </div>
+      </a>
+      <a class="feature" href="prices.html">
+        <div class="feature-media">📊</div>
+        <div class="feature-body">
+          <div class="kicker">手动维护</div>
+          <h3>价格走势</h3>
+          <span class="btn">查看价格</span>
+        </div>
+      </a>
+      <a class="feature" href="trades.html">
+        <div class="feature-media">📒</div>
+        <div class="feature-body">
+          <div class="kicker">记录 · 复盘</div>
+          <h3>交易日志</h3>
+          <span class="btn">查看日志</span>
+        </div>
+      </a>
+      <a class="feature" href="about.html">
+        <div class="feature-media">🖋</div>
+        <div class="feature-body">
+          <div class="kicker">简介 · 联系</div>
+          <h3>关于我</h3>
+          <span class="btn">了解更多</span>
+        </div>
+      </a>
+    </div>
+  </main>
 
   <footer class="foot">
     © <span id="year"></span> 研究笔记 · 内容仅供个人研究记录,不构成投资建议。

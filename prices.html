@@ -9,22 +9,26 @@
   <script src="assets/chart.js"></script>
 </head>
 <body>
-  <header class="topbar">
-    <div class="topbar-inner">
-      <a class="brand" href="index.html"><span class="logo">📈</span> 研究笔记</a>
-      <nav class="nav">
+  <header class="masthead">
+    <div class="mh-inner">
+      <div class="mh-name">研究笔记</div>
+      <div class="mh-tag">油籽 · 植物油 · 生物柴油</div>
+    </div>
+  </header>
+  <nav class="sitenav">
         <a href="index.html">首页</a>
         <a href="reports.html">报告</a>
         <a href="prices.html" class="active">价格</a>
         <a href="trades.html">交易日志</a>
         <a href="about.html">关于我</a>
-      </nav>
-    </div>
-  </header>
+  </nav>
 
   <main class="wrap">
-    <h1 class="page-title">价格</h1>
-    <p class="page-sub">各品种价格折线走势 · 手动维护。涨为<span style="color:var(--up);font-weight:700">红</span>、跌为<span style="color:var(--down);font-weight:700">绿</span>。</p>
+    <div class="section-head">
+      <h1>价格走势</h1>
+      <p>各品种价格折线图 · 手动维护。涨为<span style="color:var(--up);font-weight:700">红</span>、跌为<span style="color:var(--down);font-weight:700">绿</span>。</p>
+      <div class="rule"></div>
+    </div>
     <div id="updated" class="price-updated"></div>
     <div id="grid" class="price-grid"></div>
     <div id="err" class="empty hidden"></div>
