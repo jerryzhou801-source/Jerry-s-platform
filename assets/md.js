@@ -15,18 +15,30 @@
     var m = /^---\s*\n([\s\S]*?)\n---\s*\n?/.exec(text);
     if (!m) return { meta: {}, body: text };
     var meta = {};
+    var curKey = null;
     m[1].split('\n').forEach(function (line) {
       var mm = /^([A-Za-z0-9_一-龥]+)\s*:\s*(.*)$/.exec(line);
       if (mm) {
-        var v = mm[2].trim().replace(/^["']|["']$/g, '');
-        meta[mm[1].trim()] = v;
+        curKey = mm[1].trim();
+        meta[curKey] = mm[2].trim();
+      } else if (curKey && /^\s+\S/.test(line)) {
+        // YAML 折行:缩进续行并入当前键(用于长摘要)
+        meta[curKey] = (meta[curKey] + ' ' + line.trim()).trim();
+      } else {
+        curKey = null;
       }
     });
+    for (var k in meta) meta[k] = meta[k].replace(/^["']|["']$/g, '');
     return { meta: meta, body: text.slice(m[0].length) };
   }
 
   function inline(s) {
     s = esc(s);
+    // 保护反斜杠转义的字符(如 \~ \* \_),先替成占位符,渲染完再还原为原字符
+    var slots = [];
+    s = s.replace(/\\([\\`*_{}\[\]()#+\-.!~>])/g, function (_, ch) {
+      slots.push(ch); return '@%@' + (slots.length - 1) + '@%@';
+    });
     // 图片 ![alt](url)
     s = s.replace(/!\[([^\]]*)\]\(([^)\s]+)\)/g, '<img alt="$1" src="$2" />');
     // 链接 [text](url)
@@ -37,6 +49,8 @@
     s = s.replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>');
     // 斜体 *text*
     s = s.replace(/(^|[^*])\*([^*\n]+)\*/g, '$1<em>$2</em>');
+    // 还原被保护的转义字符
+    s = s.replace(/@%@(\d+)@%@/g, function (_, i) { return slots[Number(i)]; });
     return s;
   }
 
