@@ -8,6 +8,8 @@ backend:
   name: github
   repo: jerryzhou801-source/Jerry-s-platform   # 你的仓库(已填好)
   branch: main
+  base_url: https://jerry-s-platform.pages.dev   # 后台登录走 Cloudflare(Pages Functions)
+  auth_endpoint: auth
 
 # 后台界面语言 = 简体中文
 locale: zh_Hans
