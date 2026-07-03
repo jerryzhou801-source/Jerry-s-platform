@@ -163,6 +163,11 @@ img { max-width: 100%; }
 .empty { color: var(--muted); padding: 60px 0; text-align: center; }
 
 /* ---------- 价格折线图卡片 ---------- */
+.price-disclaimer {
+  max-width: var(--readw); margin: 0 auto 22px; padding: 12px 18px;
+  background: var(--panel-warm-2); border-left: 3px solid var(--olive);
+  color: var(--ink-soft); font-size: 13.5px; line-height: 1.6; border-radius: 0 4px 4px 0;
+}
 .price-updated {
   display: inline-block; font-size: 12px; letter-spacing: 1.5px; text-transform: uppercase;
   color: var(--olive-ink); border: 1px solid var(--line); padding: 7px 16px; border-radius: 2px; margin-bottom: 30px;

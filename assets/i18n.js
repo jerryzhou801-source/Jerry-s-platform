@@ -42,6 +42,10 @@
     price_species_suf: { zh: ')', en: ')' },
     price_updated_on: { zh: '更新于 ', en: 'Updated ' },
     price_flat:    { zh: '持平', en: 'flat' },
+    price_disclaimer: {
+      zh: '说明:本页价格均由本人从市场公开渠道收集整理,仅供参考、观察趋势之用,不代表市场公允价或可成交价格,请勿据此交易或作为决策依据。',
+      en: 'Note: All prices on this page are gathered by me from public market sources, for reference and trend-watching only. They are not fair-value or tradeable prices — please do not trade on them or rely on them for decisions.'
+    },
     price_none:    { zh: 'prices.json 里还没有任何品种。', en: 'No instruments in prices.json yet.' },
 
     list_empty:    { zh: '还没有内容。', en: 'Nothing here yet.' },
