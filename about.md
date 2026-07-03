@@ -16,3 +16,5 @@ title: 关于我
 * Whatsapp：+44 7464315074
 
 本站内容仅为个人研究记录,不构成任何投资建议。
+
+![](/assets/uploads/89f72a2a846cbfbba13d85c604535a1d.jpg)
