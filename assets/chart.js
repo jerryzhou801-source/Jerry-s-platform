@@ -22,8 +22,12 @@
     const x = function (i) { return padX + (n === 1 ? (W - 2 * padX) / 2 : (i * (W - 2 * padX)) / (n - 1)); };
     const y = function (v) { return padT + (1 - (v - min) / rng) * (H - padT - padB); };
 
-    const up = pts[n - 1].v >= pts[0].v;
-    const color = up ? 'var(--up, #c0392b)' : 'var(--down, #1a7f37)';
+    // 折线颜色 = 当天涨跌(与卡片箭头一致):涨红、跌绿、持平灰
+    let color = 'var(--faint, #9aa1ac)';
+    if (n >= 2) {
+      const d = pts[n - 1].v - pts[n - 2].v;
+      color = d > 1e-9 ? 'var(--up, #b0472f)' : (d < -1e-9 ? 'var(--down, #5f7d3b)' : 'var(--faint, #9aa1ac)');
+    }
 
     let line = '', area = '';
     pts.forEach(function (p, i) {
