@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>价格 · 研究笔记</title>
+  <link rel="stylesheet" href="assets/style.css" />
+  <script src="assets/chart.js"></script>
+</head>
+<body>
+  <header class="topbar">
+    <div class="topbar-inner">
+      <a class="brand" href="index.html">📈 研究笔记</a>
+      <nav class="nav">
+        <a href="index.html">首页</a>
+        <a href="reports.html">报告</a>
+        <a href="prices.html" class="active">价格</a>
+        <a href="trades.html">交易日志</a>
+        <a href="about.html">关于我</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <h1 class="page-title">价格</h1>
+    <p class="page-sub">各品种价格折线走势 · 手动维护。涨为<span style="color:var(--up);font-weight:700">红</span>、跌为<span style="color:var(--down);font-weight:700">绿</span>。</p>
+    <div id="updated" class="price-updated"></div>
+    <div id="grid" class="price-grid"></div>
+    <div id="err" class="empty hidden"></div>
+  </main>
+
+  <footer class="foot">数据由本人手动维护,仅供个人研究记录,不构成投资建议。</footer>
+
+  <script>
+    function fmt(n) {
+      var v = Number(n);
+      return (Math.abs(v) >= 100 || Number.isInteger(v)) ? v.toLocaleString('en-US') : v.toFixed(2);
+    }
+    function pick(o, keys) { for (var i = 0; i < keys.length; i++) if (o[keys[i]] !== undefined) return o[keys[i]]; }
+
+    fetch('data/prices.json?t=' + Date.now())
+      .then(function (r) { if (!r.ok) throw new Error('读取 prices.json 失败'); return r.json(); })
+      .then(function (data) {
+        var items = data['品种'] || data.items || [];
+        var grid = document.getElementById('grid');
+        var latestDate = '';
+
+        items.forEach(function (it) {
+          var hist = (it['历史'] || it.history || []).slice().sort(function (a, b) {
+            return String(a['日期']) < String(b['日期']) ? -1 : 1;   // 按日期从旧到新
+          });
+          var name = pick(it, ['名称', 'name']) || '(未命名)';
+          var unit = pick(it, ['单位', 'unit']) || '';
+
+          var last = hist[hist.length - 1], prev = hist[hist.length - 2];
+          var lastV = last ? Number(last['数值']) : null;
+          var lastD = last ? String(last['日期']) : '';
+          if (lastD > latestDate) latestDate = lastD;
+
+          var chgHtml = '<span class="pc-chg flat">—</span>';
+          if (last && prev) {
+            var diff = lastV - Number(prev['数值']);
+            var pct = Number(prev['数值']) ? (diff / Number(prev['数值']) * 100) : 0;
+            var cls = diff > 0 ? 'up' : (diff < 0 ? 'down' : 'flat');
+            var sign = diff > 0 ? '+' : '';
+            chgHtml = '<span class="pc-chg ' + cls + '">' + sign + fmt(diff) +
+              ' (' + sign + pct.toFixed(2) + '%)</span>';
+          }
+
+          var card = document.createElement('div');
+          card.className = 'price-card';
+          card.innerHTML =
+            '<div class="pc-head">' +
+              '<div><span class="pc-name">' + name + '</span> ' +
+              '<span class="pc-unit">' + unit + '</span></div>' +
+              '<div style="text-align:right">' +
+                '<div class="pc-val">' + (lastV !== null ? fmt(lastV) : '—') + '</div>' +
+                chgHtml +
+              '</div>' +
+            '</div>' +
+            priceChartSVG(hist) +
+            '<div class="pc-date">最近更新:' + (lastD || '—') + ' · 共 ' + hist.length + ' 个数据点</div>';
+          grid.appendChild(card);
+        });
+
+        document.getElementById('updated').textContent =
+          items.length ? ('最新数据日期:' + latestDate + '(共 ' + items.length + ' 个品种)') : '';
+        if (!items.length) {
+          var e = document.getElementById('err');
+          e.textContent = 'prices.json 里还没有任何品种。'; e.classList.remove('hidden');
+        }
+      })
+      .catch(function (err) {
+        var e = document.getElementById('err');
+        e.textContent = '加载价格数据出错:' + err.message;
+        e.classList.remove('hidden');
+      });
+  </script>
+</body>
+</html>

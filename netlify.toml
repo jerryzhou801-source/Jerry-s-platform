@@ -1,0 +1,7 @@
+# 告诉 Netlify 怎么发布这个网站。
+# 每次发布时,先跑 build-index.mjs 自动整理报告/交易日志清单,再把整个文件夹作为静态网站发布。
+[build]
+  command = "node scripts/build-index.mjs"
+  publish = "."
+
+# 后台 /admin 用到的登录跳转(GitHub OAuth),Netlify 会自动处理,无需改动。

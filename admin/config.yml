@@ -1,0 +1,81 @@
+# ============================================================
+#  网页后台配置(决定后台里有哪些栏目、表单长什么样)
+#  上线时,你只需要改下面这一行的 repo(改成你自己的 GitHub 用户名/仓库名)。
+#  其余都不用动。
+# ============================================================
+
+backend:
+  name: github
+  repo: jerryzhou801-source/Jerry-s-platform   # 你的仓库(已填好)
+  branch: main
+
+# 后台界面语言 = 简体中文
+locale: zh_Hans
+
+# 上传的图片放哪里
+media_folder: assets/uploads
+public_folder: /assets/uploads
+
+# 让改动直接发布(点“发布”即上线,不需要审稿流程)
+publish_mode: simple
+
+collections:
+  # -------- 报告(每日简报 / 周报)--------
+  - name: reports
+    label: 报告
+    label_singular: 报告
+    folder: reports
+    create: true
+    extension: md
+    format: frontmatter
+    slug: '{{fields.date}}-report'
+    summary: '{{fields.date}} · {{title}}'
+    sortable_fields: [date, title]
+    fields:
+      - { label: 标题, name: title, widget: string, hint: '例如:每日简报 · 2026-07-03' }
+      - { label: 日期, name: date, widget: datetime, date_format: 'YYYY-MM-DD', time_format: false, format: 'YYYY-MM-DD' }
+      - { label: 摘要(可选,显示在列表里), name: summary, widget: text, required: false }
+      - { label: 正文, name: body, widget: markdown }
+
+  # -------- 交易日志 --------
+  - name: trades
+    label: 交易日志
+    label_singular: 交易日志
+    folder: trades
+    create: true
+    extension: md
+    format: frontmatter
+    slug: '{{fields.date}}-trade'
+    summary: '{{fields.date}} · {{title}}'
+    sortable_fields: [date, title]
+    fields:
+      - { label: 标题, name: title, widget: string, hint: '例如:交易日志 · 2026-07-02 菜油/棕榈价差' }
+      - { label: 日期, name: date, widget: datetime, date_format: 'YYYY-MM-DD', time_format: false, format: 'YYYY-MM-DD' }
+      - { label: 摘要(可选), name: summary, widget: text, required: false }
+      - { label: 正文, name: body, widget: markdown }
+
+  # -------- 价格(编辑 data/prices.json)--------
+  - name: prices
+    label: 价格
+    files:
+      - name: prices_data
+        label: 价格数据
+        file: data/prices.json
+        fields:
+          - { label: 更新说明, name: 更新说明, widget: string, required: false }
+          - label: 品种
+            name: 品种
+            widget: list
+            label_singular: 品种
+            summary: '{{fields.名称}}'
+            fields:
+              - { label: 名称, name: 名称, widget: string }
+              - { label: 单位, name: 单位, widget: string }
+              - label: 历史(每天加一行)
+                name: 历史
+                widget: list
+                label_singular: 一天
+                summary: '{{fields.日期}} · {{fields.数值}}'
+                fields:
+                  - { label: 日期, name: 日期, widget: datetime, date_format: 'YYYY-MM-DD', time_format: false, format: 'YYYY-MM-DD' }
+                  - { label: 数值, name: 数值, widget: number, value_type: float }

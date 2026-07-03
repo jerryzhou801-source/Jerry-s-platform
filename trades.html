@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>交易日志 · 研究笔记</title>
+  <link rel="stylesheet" href="assets/style.css" />
+  <script src="assets/site.js"></script>
+</head>
+<body>
+  <header class="topbar">
+    <div class="topbar-inner">
+      <a class="brand" href="index.html">📈 研究笔记</a>
+      <nav class="nav">
+        <a href="index.html">首页</a>
+        <a href="reports.html">报告</a>
+        <a href="prices.html">价格</a>
+        <a href="trades.html" class="active">交易日志</a>
+        <a href="about.html">关于我</a>
+      </nav>
+    </div>
+  </header>
+  <main class="wrap">
+    <h1 class="page-title">交易日志</h1>
+    <p class="page-sub">自己的交易记录与复盘,按日期从新到旧排列。</p>
+    <div id="list"></div>
+  </main>
+  <footer class="foot">个人交易记录,不构成投资建议。</footer>
+  <script>
+    renderList({ dir: 'trades', articlePage: 'trade.html', mountId: 'list' });
+  </script>
+</body>
+</html>
