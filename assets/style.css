@@ -173,12 +173,29 @@ img { max-width: 100%; }
   display: inline-block; font-size: 12px; letter-spacing: 1.5px; text-transform: uppercase;
   color: var(--olive-ink); border: 1px solid var(--line); padding: 7px 16px; border-radius: 2px; margin-bottom: 30px;
 }
+/* 分区导航(吸顶,点击跳到对应分区) */
+.price-nav {
+  position: sticky; top: 63px; z-index: 15;
+  display: flex; gap: 8px; flex-wrap: nowrap; overflow-x: auto;
+  padding: 12px 0; margin: 0 0 8px;
+  background: var(--bg); border-bottom: 1px solid var(--line);
+  -webkit-overflow-scrolling: touch;
+}
+.price-nav a {
+  white-space: nowrap; font-size: 13px; font-weight: 600; color: var(--ink-soft);
+  padding: 6px 14px; border: 1px solid var(--line); border-radius: 999px;
+  background: var(--panel); transition: background .15s, color .15s, border-color .15s;
+}
+.price-nav a:hover { background: var(--olive); color: #fff; border-color: var(--olive); text-decoration: none; }
+.price-nav::-webkit-scrollbar { height: 6px; }
+.price-nav::-webkit-scrollbar-thumb { background: var(--line); border-radius: 3px; }
+
 .price-section {
   font-family: var(--serif); font-weight: 400; font-size: 20px; color: var(--ink);
   margin: 38px 0 16px; padding-bottom: 8px; border-bottom: 1px solid var(--line);
-  letter-spacing: .3px;
+  letter-spacing: .3px; scroll-margin-top: 140px;
 }
-.price-section:first-of-type { margin-top: 8px; }
+.price-section:first-of-type { margin-top: 14px; }
 .price-grid { display: grid; gap: 24px; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); }
 .pc-legend { display: flex; flex-wrap: wrap; gap: 4px 14px; margin-top: 12px; }
 .pc-leg { font-size: 12px; color: var(--muted); display: inline-flex; align-items: center; gap: 5px; }
@@ -259,5 +276,7 @@ img { max-width: 100%; }
   .sitenav { gap: 0; padding: 10px 66px 10px 8px; }
   .sitenav a { padding: 6px 9px; letter-spacing: .5px; font-size: 13px; }
   .lang-toggle { right: 8px; font-size: 13px; padding: 6px 12px; min-width: 0; }
+  .price-nav { position: static; }
+  .price-section { scroll-margin-top: 12px; }
 }
 @media (prefers-reduced-motion: reduce) { * { transition: none !important; scroll-behavior: auto; } }
