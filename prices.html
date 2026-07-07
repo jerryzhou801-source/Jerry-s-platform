@@ -33,6 +33,7 @@
     </div>
     <p class="price-disclaimer" data-i18n="price_disclaimer">说明:本页价格均由本人从市场公开渠道收集整理,仅供参考、观察趋势之用,不代表市场公允价或可成交价格,请勿据此交易或作为决策依据。</p>
     <div id="updated" class="price-updated"></div>
+    <nav id="section-nav" class="price-nav"></nav>
     <div id="content"></div>
     <div id="err" class="empty hidden"></div>
   </main>
@@ -101,11 +102,13 @@
       var content = document.getElementById('content');
       var groups = priceData['分组'];
       var latest = priceData['更新时间'] || '';
-      var html = '', count = 0;
+      var html = '', nav = '', count = 0;
 
       if (groups && groups.length) {
-        groups.forEach(function (g) {
-          html += '<h2 class="price-section">' + esc(nameOf(g['组名'])) + '</h2><div class="price-grid">';
+        groups.forEach(function (g, gi) {
+          var sname = esc(nameOf(g['组名']));
+          nav += '<a href="#sec-' + gi + '">' + sname + '</a>';
+          html += '<h2 class="price-section" id="sec-' + gi + '">' + sname + '</h2><div class="price-grid">';
           (g['面板'] || []).forEach(function (p) { html += panelCard(p); count++; });
           html += '</div>';
         });
@@ -116,6 +119,7 @@
         html += '</div>';
       }
       content.innerHTML = html;
+      document.getElementById('section-nav').innerHTML = nav;
       document.getElementById('updated').textContent = count ? (T('price_updated_on', '更新于 ') + latest) : '';
       var e = document.getElementById('err');
       if (!count) { e.textContent = T('price_none', 'prices.json 里还没有任何品种。'); e.classList.remove('hidden'); }
@@ -131,6 +135,17 @@
       });
 
     document.addEventListener('langchange', render);
+
+    // 分区导航:点击精确滚动到对应分区(避开吸顶栏)
+    document.getElementById('section-nav').addEventListener('click', function (e) {
+      var a = e.target.closest('a');
+      if (!a) return;
+      e.preventDefault();
+      var el = document.getElementById(a.getAttribute('href').slice(1));
+      if (!el) return;
+      var y = el.getBoundingClientRect().top + window.scrollY - 128;
+      window.scrollTo({ top: y, behavior: 'smooth' });
+    });
   </script>
 </body>
 </html>
