@@ -59,8 +59,9 @@
     foot:          { zh: '内容仅供个人研究记录,不构成投资建议。', en: 'Personal research notes only. Not investment advice.' }
   };
 
-  function getLang() { try { return localStorage.getItem('lang') || 'en'; } catch (e) { return 'en'; } }
-  function setLang(l) { try { localStorage.setItem('lang', l); } catch (e) {} apply();
+  // 用 sessionStorage:本次浏览内(跨页面)记住选择;关掉重开则默认回英文。
+  function getLang() { try { return sessionStorage.getItem('lang') || 'en'; } catch (e) { return 'en'; } }
+  function setLang(l) { try { sessionStorage.setItem('lang', l); } catch (e) {} apply();
     document.dispatchEvent(new CustomEvent('langchange', { detail: l })); }
   function t(key) { var e = STR[key]; return e ? (e[getLang()] || e.zh) : key; }
 
