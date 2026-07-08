@@ -28,6 +28,13 @@
   --readw: 760px;
 }
 
+/* 英文版:西方习惯,涨绿跌红(与中文相反)。整体交换 up/down 颜色,
+   界面文字与图线一起翻转;中文版保持涨红跌绿(上面 :root 默认)。 */
+html[lang="en"] {
+  --up: #5f7d3b;   --up-tint: #e9eede;
+  --down: #b0472f; --down-tint: #f2e6e0;
+}
+
 * { box-sizing: border-box; }
 html { -webkit-text-size-adjust: 100%; scroll-behavior: smooth; }
 body {
