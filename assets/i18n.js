@@ -38,8 +38,8 @@
     trades_title:  { zh: '交易日志', en: 'Trade Log' },
     trades_sub:    { zh: '自己的交易记录与复盘,按日期从新到旧排列。', en: 'My own trade records and reviews, newest first.' },
     prices_title:  { zh: '价格走势', en: 'Prices' },
-    prices_sub_html: { zh: '各品种价格折线图 · 手动维护。涨为<span style="color:var(--up);font-weight:700">红</span>、跌为<span style="color:var(--down);font-weight:700">绿</span>。',
-                       en: 'Line charts per instrument · hand-updated. Up in <span style="color:var(--up);font-weight:700">red</span>, down in <span style="color:var(--down);font-weight:700">green</span>.' },
+    prices_sub_html: { zh: '各品种价格折线图 · 手动维护。显示当日涨跌<b>百分比</b>。涨为<span style="color:var(--up);font-weight:700">红</span>、跌为<span style="color:var(--down);font-weight:700">绿</span>。',
+                       en: 'Line charts per instrument · hand-updated. Shows daily <b>percent</b> change. Up in <span style="color:var(--up);font-weight:700">green</span>, down in <span style="color:var(--down);font-weight:700">red</span>.' },
     about_title:   { zh: '关于我', en: 'About' },
 
     price_latest:  { zh: '最新数据日期:', en: 'Latest data: ' },
