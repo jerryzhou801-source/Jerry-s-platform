@@ -22,11 +22,16 @@
     const x = function (i) { return padX + (n === 1 ? (W - 2 * padX) / 2 : (i * (W - 2 * padX)) / (n - 1)); };
     const y = function (v) { return padT + (1 - (v - min) / rng) * (H - padT - padB); };
 
-    // 折线颜色 = 当天涨跌(与卡片箭头一致):涨红、跌绿、持平灰
-    let color = 'var(--faint, #9aa1ac)';
+    // 折线颜色 = 当天涨跌(与卡片箭头一致)。从计算样式取 --up/--down 的实际颜色,
+    // 这样会随语言翻转(中文涨红跌绿 / 英文涨绿跌红),且不依赖 SVG 属性里 var() 的解析。
+    const _cs = getComputedStyle(document.documentElement);
+    const _UP = (_cs.getPropertyValue('--up') || '').trim() || '#b0472f';
+    const _DOWN = (_cs.getPropertyValue('--down') || '').trim() || '#5f7d3b';
+    const _FAINT = '#9aa1ac';
+    let color = _FAINT;
     if (n >= 2) {
       const d = pts[n - 1].v - pts[n - 2].v;
-      color = d > 1e-9 ? 'var(--up, #b0472f)' : (d < -1e-9 ? 'var(--down, #5f7d3b)' : 'var(--faint, #9aa1ac)');
+      color = d > 1e-9 ? _UP : (d < -1e-9 ? _DOWN : _FAINT);
     }
 
     let line = '', area = '';
