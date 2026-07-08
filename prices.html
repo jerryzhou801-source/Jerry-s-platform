@@ -56,15 +56,19 @@
       var out = { have: true, lastD: String(last['日期']), sorted: h };
       if (prev) {
         var diff = Number(last['数值']) - Number(prev['数值']);
+        var pv = Number(prev['数值']);
         out.diff = diff;
+        out.pct = (pv !== 0 && isFinite(pv)) ? (diff / Math.abs(pv)) * 100 : null;  // 相对前值的涨跌百分比
         out.cls = diff > 0.0000001 ? 'up' : (diff < -0.0000001 ? 'down' : 'flat');
         out.arrow = out.cls === 'up' ? '▲' : (out.cls === 'down' ? '▼' : '');
-      } else { out.cls = 'flat'; out.arrow = ''; out.diff = 0; }
+      } else { out.cls = 'flat'; out.arrow = ''; out.diff = 0; out.pct = null; }
       return out;
     }
-    function chgText(c, unit) {
+    // 涨跌幅度文字:优先显示百分比(箭头已表方向,故只显示绝对幅度)。无前值可算时退回绝对差。
+    function pctText(c) { return (c.pct == null) ? fmt(c.diff) : (Math.abs(c.pct).toFixed(2) + '%'); }
+    function chgText(c) {
       if (c.cls === 'flat') return '<span class="pc-chg flat">' + T('price_flat', '持平') + '</span>';
-      return '<span class="pc-chg ' + c.cls + '">' + c.arrow + ' ' + fmt(c.diff) + (unit ? ' ' + esc(unit) : '') + '</span>';
+      return '<span class="pc-chg ' + c.cls + '">' + c.arrow + ' ' + pctText(c) + '</span>';
     }
 
     function panelCard(panel) {
@@ -88,7 +92,7 @@
         var c = change(s['历史']);
         if (c.lastD > lastD) lastD = c.lastD;
         var cc = c.have && c.cls !== 'flat'
-          ? '<b class="' + c.cls + '">' + c.arrow + fmt(c.diff) + '</b>'
+          ? '<b class="' + c.cls + '">' + c.arrow + pctText(c) + '</b>'
           : '<b class="flat">·</b>';
         return '<span class="pc-leg"><i style="background:' + pal[i % pal.length] + '"></i>' + esc(nameOf(s['名称'])) + ' ' + cc + '</span>';
       }).join('') + '</div>';
