@@ -156,6 +156,17 @@ img { max-width: 100%; }
 .feature-body .btn { margin-top: auto; }
 
 /* ---------- 文章列表(报告 / 交易日志)编辑风 ---------- */
+/* 列表搜索框(报告 / 交易日志) */
+.list-search { max-width: var(--readw); margin: 0 auto 22px; display: flex; align-items: center; gap: 12px; }
+.list-search input {
+  flex: 1; min-width: 0; font: inherit; font-size: 16px; color: var(--ink);
+  background: var(--paper); border: 1px solid var(--line); border-radius: 10px;
+  padding: 11px 15px; transition: border-color .15s, box-shadow .15s;
+}
+.list-search input::placeholder { color: var(--muted); }
+.list-search input:focus { outline: none; border-color: var(--olive); box-shadow: 0 0 0 3px var(--down-tint); }
+.list-search .ls-info { color: var(--muted); font-size: 13px; white-space: nowrap; }
+
 .list { list-style: none; padding: 0; margin: 0 auto; max-width: var(--readw); }
 .list li {
   padding: 26px 0; border-bottom: 1px solid var(--line);
