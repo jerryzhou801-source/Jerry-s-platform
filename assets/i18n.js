@@ -55,6 +55,8 @@
     price_none:    { zh: 'prices.json 里还没有任何品种。', en: 'No instruments in prices.json yet.' },
 
     list_empty:    { zh: '还没有内容。', en: 'Nothing here yet.' },
+    search_ph:     { zh: '搜索标题 / 摘要 / 正文…', en: 'Search title / summary / body…' },
+    search_none:   { zh: '没有匹配的文章。', en: 'No matching articles.' },
     back:          { zh: '← 返回列表', en: '← Back' },
     foot:          { zh: '内容仅供个人研究记录,不构成投资建议。', en: 'Personal research notes only. Not investment advice.' }
   };
