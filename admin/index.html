@@ -9,6 +9,9 @@
 <body>
   <!-- 网页后台:登录后可写报告、记交易日志、改价格,内容自动存进 GitHub。
        它是一段成熟的开源程序(Decap CMS),从网上加载;只有能登录你 GitHub 的人(也就是你)才能进来发布。 -->
-  <script src="https://unpkg.com/decap-cms@^3.6.3/dist/decap-cms.js"></script>
+  <!-- ⚠️ 必须锁定具体版本(别用 ^,否则会自动升级到最新版):
+       2026-07 官方 3.15.0 带了 React #130 的 bug,会让后台编辑器崩溃。
+       3.14.1 是崩溃前最后一个稳定版。若哪天 3.14.1 也出问题,再往下换(3.13.0 / 3.12.2)。 -->
+  <script src="https://unpkg.com/decap-cms@3.14.1/dist/decap-cms.js"></script>
 </body>
 </html>
